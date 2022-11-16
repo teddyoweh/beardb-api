@@ -27,8 +27,8 @@ def makesecret(data,uid):
     
 project = Beardb('beardftp')
 project.load_database('beardftp') 
-@blueprint.route('/new', methods=['GET', 'POST'])
-def new():
+@blueprint.route('/newuser', methods=['GET', 'POST'])
+def newuser():
     if request.method=='POST':
         form = request.form
         form = dict(form)
@@ -96,7 +96,7 @@ def newproject():
                 logged = True
                 i['projects'].append(form['project'])
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 with open('users.json', 'w') as f:
             
                     json.dump(data, f)
@@ -126,7 +126,7 @@ def newdatabase():
                 'project':form['project']
                 })
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 with open('users.json', 'w') as f:
             
@@ -160,7 +160,7 @@ def newbucket():
                 'created':str(datetime.datetime.now())
                 })
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketname = Bucket(project=project, bucket_name=form['bucket'])
                 with open('users.json', 'w') as f:
@@ -196,7 +196,7 @@ def insertdata():
                 'modified':str(datetime.datetime.now())
                 })
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
                 bucketdata.insert(data=json.loads(form['data']))
@@ -222,15 +222,14 @@ def updatedata():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets'].append(
-                {
+                i['buckets']={
                 'name':form['bucket'],
                 'database':form['database'],
                 'project':form['project'],
                 'modified':str(datetime.datetime.now())
-                })
+                }
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
                 query=json.loads(form['query'])
@@ -260,19 +259,18 @@ def updatedatabyid():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets'].append(
-                {
+                i['buckets']={
                 'name':form['bucket'],
                 'database':form['database'],
                 'project':form['project'],
                 'modified':str(datetime.datetime.now())
-                })
+                }
                
-                project = Beardb(form['project'])
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
                
-                bucketdata.update(id=form['userid'],data=newdata)
+                bucketdata.update(id=form['userid'],data=json.loads(form['data']))
                 with open('users.json', 'w') as f:
             
                     json.dump(data, f)
@@ -282,7 +280,28 @@ def updatedatabyid():
         return {'status':'failed'}
 
     
-    
+
+@blueprint.route('/getbucketslist', methods=['GET', 'POST'])
+def getbucketslist():
+
+    if request.method=='POST':
+        form = request.form
+        form = dict(form)
+        
+        
+        with open('users.json', 'r') as f:
+
+            data = json.load(f)
+        
+        logged = False
+        for i in data:
+            if i['secretKey']==form['secret'] and i['email']==form['email']:
+                logged = True
+                return {'status':'success','buckets':i['buckets']}
+               
+          
+        return {'status':'failed'}
+         
 @blueprint.route('/getprojectslist', methods=['GET', 'POST'])
 def getprojectslist():
 
