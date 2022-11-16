@@ -1,2 +1,0 @@
-# flaskboilerplate
-  Flask API boilerplate

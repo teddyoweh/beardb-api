@@ -188,13 +188,12 @@ def insertdata():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets'].append(
-                {
+                i['buckets']={
                 'name':form['bucket'],
                 'database':form['database'],
                 'project':form['project'],
                 'modified':str(datetime.datetime.now())
-                })
+                }
                
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
