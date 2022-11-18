@@ -6,7 +6,13 @@ import base64
 import json
 import hashlib
 import datetime
+from flask_cors import CORS,cross_origin
 import json
+from datetime import timedelta
+from flask import make_response, request, current_app
+from functools import update_wrapper
+
+ 
 def hashvar(string):
 
     return hashlib.sha256(string.encode('utf-8')).hexdigest()
@@ -16,7 +22,7 @@ blueprint = Blueprint('pages', __name__)
 ################
 #### routes ####
 ################
- 
+
 def makesecret(data,uid):
     encoded = base64.b64encode(str(data).encode('utf-8'))
     encoded = encoded.decode('utf-8')
@@ -25,8 +31,7 @@ def makesecret(data,uid):
     return hashvar(newcode)
     
     
-project = Beardb('beardftp')
-project.load_database('beardftp') 
+ 
 @blueprint.route('/newuser', methods=['GET', 'POST'])
 def newuser():
     if request.method=='POST':
@@ -62,6 +67,7 @@ def newuser():
   
   
 @blueprint.route('/me', methods=['GET', 'POST'])
+@cross_origin()
 def me():
     if request.method=='POST':
         form = request.form
