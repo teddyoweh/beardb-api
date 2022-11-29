@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request,jsonify
+import flask
 import uuid
 from Beardb.Beardb import Beardb
 from Beardb.Bucket import Bucket
@@ -29,22 +30,46 @@ def makesecret(data,uid):
     datee = datetime.datetime.now()
     newcode = str(datee) + str(uid) + str(encoded)
     return hashvar(newcode)
+
+#make blank page
     
-    
+@blueprint.route('/', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
+def blank():
+    if(request.method == 'POST'):
+        print()
+        
+        # print(request.form)
+        response = flask.jsonify({'message': 'ok'})
+        # response.headers["Access-Control-Allow-Origin"] = "*"
  
+        return response
+
+
+
+
 @blueprint.route('/newuser', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
+    
 def newuser():
+    """_summary_: create a new user
+
+    Returns:
+        _type_: _description_
+        args:fullname,email, password, 
+    """
+    
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+       
+        form = request.get_json()
         uid=uuid.uuid1()
         print(form)
         newdata = {
         'id':str(uid),
         'email':form['email'],
         'fullname':form['fullname'],
-        
-        'secretKey':makesecret(str(form['secret']),uid),
+        'password':form['password'],
+        'secretKey':makesecret(str(form['password']),uid),
         'projects':[],
         'databases':[],
         'buckets':[],
@@ -65,13 +90,48 @@ def newuser():
             
         return {'status':'success'}
   
-  
+# make a login route
+
+@blueprint.route('/login', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
+def login():
+    if request.method=='POST':
+        form = request.get_json()
+        print(form)
+        with open('users.json', 'r') as f:
+
+            data = json.load(f)
+        emails=[]
+        for i in data:
+            emails.append(i['email'])
+        print(emails)
+        if form['email'] in emails:
+            index = emails.index(form['email'])
+            if data[index]['secretKey'] == form['secret']:
+                response = flask.jsonify({'message': 'ok'})
+                response.status_code = 200
+                return response
+            response = flask.jsonify({'message': 'wrong password'})
+            response.status_code = 402
+            
+            return response 
+            
+        else:
+            response = flask.jsonify({'message': 'email not found'})
+            response.status_code = 401
+            return response
+           
+        
+            
+                        
+           
+                    
 @blueprint.route('/me', methods=['GET', 'POST'])
 @cross_origin()
 def me():
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -88,8 +148,8 @@ def me():
 @blueprint.route('/newproject', methods=['GET', 'POST'])
 def newproject():
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -116,8 +176,8 @@ def newproject():
 @blueprint.route('/newdatabase', methods=['GET', 'POST'])
 def newdatabase():
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -149,8 +209,8 @@ def newdatabase():
 @blueprint.route('/newbucket', methods=['GET', 'POST'])
 def newbucket():
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -188,8 +248,8 @@ def insertdata():
     
     
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -221,8 +281,8 @@ def insertdata():
 @blueprint.route('/updatedata', methods=['GET', 'POST'])
 def updatedata():
         if request.method=='POST':
-            form = request.form
-        form = dict(form)
+            
+            form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -256,73 +316,73 @@ def updatedata():
 @blueprint.route('/fetchdata', methods=['GET', 'POST'])
 def fetchdata():
         if request.method=='POST':
-            form = request.form
-        form = dict(form)
-        
-        
-        with open('users.json', 'r') as f:
-
-            data = json.load(f)
-        
-        logged = False
-        for i in data:
-            if i['secretKey']==form['secret'] and i['email']==form['email']:
-                logged = True
-                i['buckets']={
-                'name':form['bucket'],
-                'database':form['database'],
-                'project':form['project'],
-                'modified':str(datetime.datetime.now())
-                }
-               
-                project = Beardb(str(form['project'])+'_'+str(i['id']))
-                project.load_database(form['database']) 
-                bucketdata = Bucket(project=project, bucket_name=form['bucket'])
-               
-                
-                with open('users.json', 'w') as f:
             
-                    json.dump(data, f)
-                
+            form = request.get_json()
+        
+        
+            with open('users.json', 'r') as f:
+    
+                data = json.load(f)
             
-                return {'status':'success','data':bucketdata.fetchData(query=json.loads(form['data']))}
-        return {'status':'failed'}
+            logged = False
+            for i in data:
+                if i['secretKey']==form['secret'] and i['email']==form['email']:
+                    logged = True
+                    i['buckets']={
+                    'name':form['bucket'],
+                    'database':form['database'],
+                    'project':form['project'],
+                    'modified':str(datetime.datetime.now())
+                    }
+                   
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
+                    project.load_database(form['database']) 
+                    bucketdata = Bucket(project=project, bucket_name=form['bucket'])
+                   
+                    
+                    with open('users.json', 'w') as f:
+                
+                        json.dump(data, f)
+                    
+                
+                    return {'status':'success','data':bucketdata.fetchData(query=json.loads(form['data']))}
+            return {'status':'failed'}
 
     
 @blueprint.route('/updatedatabyid', methods=['GET', 'POST'])
 def updatedatabyid():
         if request.method=='POST':
-            form = request.form
-        form = dict(form)
-        
-        
-        with open('users.json', 'r') as f:
-
-            data = json.load(f)
-        
-        logged = False
-        for i in data:
-            if i['secretKey']==form['secret'] and i['email']==form['email']:
-                logged = True
-                i['buckets']={
-                'name':form['bucket'],
-                'database':form['database'],
-                'project':form['project'],
-                'modified':str(datetime.datetime.now())
-                }
-               
-                project = Beardb(str(form['project'])+'_'+str(i['id']))
-                project.load_database(form['database']) 
-                bucketdata = Bucket(project=project, bucket_name=form['bucket'])
-               
-                bucketdata.update(id=form['userid'],data=json.loads(form['data']))
-                with open('users.json', 'w') as f:
             
-                    json.dump(data, f)
+            form = request.get_json()
+        
+        
+            with open('users.json', 'r') as f:
+    
+                data = json.load(f)
+            
+            logged = False
+            for i in data:
+                if i['secretKey']==form['secret'] and i['email']==form['email']:
+                    logged = True
+                    i['buckets']={
+                    'name':form['bucket'],
+                    'database':form['database'],
+                    'project':form['project'],
+                    'modified':str(datetime.datetime.now())
+                    }
+                   
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
+                    project.load_database(form['database']) 
+                    bucketdata = Bucket(project=project, bucket_name=form['bucket'])
+                   
+                    bucketdata.update(id=form['userid'],data=json.loads(form['data']))
+                    with open('users.json', 'w') as f:
                 
-            
-                return {'status':'success'}
-        return {'status':'failed'}
+                        json.dump(data, f)
+                    
+                
+                    return {'status':'success'}
+            return {'status':'failed'}
 
     
 
@@ -330,8 +390,8 @@ def updatedatabyid():
 def getbucketslist():
 
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
@@ -351,8 +411,8 @@ def getbucketslist():
 def getprojectslist():
 
     if request.method=='POST':
-        form = request.form
-        form = dict(form)
+        
+        form = request.get_json()
         
         
         with open('users.json', 'r') as f:
