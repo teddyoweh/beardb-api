@@ -127,7 +127,7 @@ def login():
            
                     
 @blueprint.route('/me', methods=['GET', 'POST'])
-@cross_origin()
+@cross_origin(origin='*',headers=['Authorization'])
 def me():
     if request.method=='POST':
         
@@ -138,7 +138,7 @@ def me():
 
             data = json.load(f)
         
-            
+        print(form)     
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 return {'status':'success','data':i}
@@ -146,6 +146,7 @@ def me():
          
   
 @blueprint.route('/newproject', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
 def newproject():
     if request.method=='POST':
         
@@ -174,6 +175,7 @@ def newproject():
         return {'status':'failed'}
      
 @blueprint.route('/newdatabase', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
 def newdatabase():
     if request.method=='POST':
         
@@ -207,6 +209,7 @@ def newdatabase():
         return {'status':'failed'}
         
 @blueprint.route('/newbucket', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Authorization'])
 def newbucket():
     if request.method=='POST':
         
