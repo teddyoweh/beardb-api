@@ -1,3 +1,5 @@
 flask
 Beardb
 waitress
+flask_cors
+gunicorn
