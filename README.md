@@ -34,10 +34,11 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 - email
 - fullname
 - password
-
+### Method 
+**POST**
 ### Endpoint 
 ```sh
-[POST] - \newuser
+\newuser
 ```
 
 ### Response
