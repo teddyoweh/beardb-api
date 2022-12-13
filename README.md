@@ -80,3 +80,54 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 ```
 
 
+## Getting User Data
+### Params
+- email
+- secret
+
+### Endpoint 
+```sh
+[POST] - \me
+```
+
+### Response
+```json
+ 
+
+{
+ "status": "success"
+	"data": {
+ 
+ 	   "email": "teddyoweh@gmail.com",
+           "fullname": "testt",
+           "id": "db067f2a-7ac4-11ed-aaf7-324d38bf6d76",
+           "password": "tstt",
+           "secretKey": "a60e1bb1be7fc59ea08378f2840a8a4f44c07d19b315c3e78a279660a3f8a6f5"
+           "databases": [
+              {
+               "name": "appp",
+               "project": "idea"
+              }
+           ],
+
+           "projects": [
+             "idea"
+           ],
+           "buckets": [
+             {
+              "database": "appp",
+              "modified": "2022-12-13 03:47:55.373527",
+              "name": "users",
+              "project": "idea"
+             },
+            ]
+            "created": "2022-12-13 03:02:22.519349",
+
+          },
+
+}
+
+```
+
+
+
