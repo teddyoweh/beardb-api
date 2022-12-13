@@ -34,8 +34,10 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 - email
 - fullname
 - password
+- 
 ### Method 
-**POST**
+	POST
+
 ### Endpoint 
 ```sh
 \newuser
@@ -85,10 +87,11 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 ### Params
 - email
 - secret
-
+### Method
+	POST
 ### Endpoint 
 ```sh
-[POST] - \me
+\me
 ```
 
 ### Response
@@ -126,6 +129,82 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
           },
 
+}
+
+```
+
+
+
+## Create Project
+
+### Params
+- email
+- secret
+- project
+### Method
+	POST
+### Endpoint 
+```sh
+\newproject
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+
+
+## Create Project
+
+### Params
+- email
+- secret
+- project
+- database
+
+
+### Method
+	POST
+### Endpoint 
+```sh
+\newdatabase
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+
+
+
+## Create Bucket
+
+### Params
+- email
+- secret
+- project
+- database
+- bucket
+
+### Method
+	POST
+### Endpoint 
+```sh
+\newbucket
+```
+
+### Response
+```json
+{
+ "status": "success"	
 }
 
 ```
