@@ -27,4 +27,17 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 [POST] - \databaselist
 [POST] - \projectlist
 ```
+# API GUIDES
+
+## Creating New User
+### Params
+- email
+- fullname
+- password
+
+### Endpoint 
+```sh
+[POST] - \newuser
+```
+
 
