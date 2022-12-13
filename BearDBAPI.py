@@ -4,13 +4,7 @@ import json
 from werkzeug.routing import BaseConverter
 import subprocess
 from flask_cors import CORS,cross_origin
-
-
-
-
-
-
-
+import datetime
 class ListConverter(BaseConverter):
     def to_python(self, value):
         return value.split(',')
@@ -24,13 +18,35 @@ class BearDBAPI:
         self.app.config['CORS_HEADERS'] = 'Content-Type'
         self.host = 'localhost'
         self.port= 9000
-        # check if users.json exists if not create it
-        if not os.path.exists('users.json'):
-            with open('users.json', 'w') as f:
-                json.dump({}, f)
-    def config(self, host, port):
-        self.host = host
-        self.port = port
+        print(self.app.url_map)
+ 
+        
+
+
+    #  
+    def storage(self,app_name:str, dir:str=''):     
+            # if not os.path.isdir(dir):
+            #     os.mkdir(dir)
+            app_dir = os.path.join(dir, app_name)
+            if not os.path.exists(app_dir):
+                os.makedirs(app_dir)
+                with open(os.path.join(app_dir, ".bdb"), "w") as f:
+                    f.write(datetime.datetime.now().strftime("%Y-%m-%d"))
+                    f.write("\n")
+                    f.write(app_name)
+                open(os.path.join(app_dir, "ips.json"), "w").close()
+              
+            else:
+                if not os.path.exists(os.path.join(app_dir, ".bdb")):
+                    raise Exception(".bdb file does not exist in the directory")
+            os.system(f"cd {app_dir}")
+            os.chdir(app_dir)
+            print(os.getcwd())
+            if not os.path.exists('users.json'):
+                with open('users.json', 'w') as f:
+                    json.dump([], f)
+
+                
     def host(self):
         return self.app
     def run(self):

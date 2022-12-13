@@ -1,3 +1,4 @@
+import ast
 from flask import render_template, Blueprint, request,jsonify
 import flask
 import uuid
@@ -138,7 +139,7 @@ def me():
 
             data = json.load(f)
         
-        print(form)     
+        print(data)     
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 return {'status':'success','data':i}
@@ -273,7 +274,8 @@ def insertdata():
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
-                bucketdata.insert(data=json.loads(form['data']))
+        
+                bucketdata.insert(data=ast.literal_eval(form['data']) )
                 with open('users.json', 'w') as f:
             
                     json.dump(data, f)
@@ -306,8 +308,8 @@ def updatedata():
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
-                query=json.loads(form['query'])
-                newdata=json.loads(form['data'])
+                query=ast.literal_eval(form['query'])
+                newdata=ast.literal_eval(form['data'])
                 bucketdata.update(query=query,data=newdata)
                 with open('users.json', 'w') as f:
             
@@ -316,6 +318,11 @@ def updatedata():
             
                 return {'status':'success'}
         return {'status':'failed'}
+
+
+
+
+
 @blueprint.route('/fetchdata', methods=['GET', 'POST'])
 def fetchdata():
         if request.method=='POST':
@@ -348,12 +355,10 @@ def fetchdata():
                         json.dump(data, f)
                     
                 
-                    return {'status':'success','data':bucketdata.fetchData(query=json.loads(form['data']))}
+                    return {'status':'success','data':bucketdata.fetchData(query=ast.literal_eval(form['query']))}
             return {'status':'failed'}
-
-    
-@blueprint.route('/updatedatabyid', methods=['GET', 'POST'])
-def updatedatabyid():
+@blueprint.route('/fetchbyid', methods=['GET', 'POST'])
+def fetchdatabyid():
         if request.method=='POST':
             
             form = request.get_json()
@@ -378,16 +383,114 @@ def updatedatabyid():
                     project.load_database(form['database']) 
                     bucketdata = Bucket(project=project, bucket_name=form['bucket'])
                    
-                    bucketdata.update(id=form['userid'],data=json.loads(form['data']))
+                    
                     with open('users.json', 'w') as f:
                 
                         json.dump(data, f)
                     
                 
-                    return {'status':'success'}
+                    return {'status':'success','data':bucketdata.fetchbyID(id=form['id'])}
             return {'status':'failed'}
 
+@blueprint.route('/updatebyid', methods=['GET', 'POST'])
+def updatedatabyid():
+        if request.method=='POST':
+            
+            form = request.get_json()
+        
+        
+        with open('users.json', 'r') as f:
+
+            data = json.load(f)
+        
+        logged = False
+        for i in data:
+            if i['secretKey']==form['secret'] and i['email']==form['email']:
+                logged = True
+                i['buckets']={
+                'name':form['bucket'],
+                'database':form['database'],
+                'project':form['project'],
+                'modified':str(datetime.datetime.now())
+                }
+               
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
+                project.load_database(form['database']) 
+                bucketdata = Bucket(project=project, bucket_name=form['bucket'])
+                id=form['id']
+                newdata=ast.literal_eval(form['data'])
+                bucketdata.uupdatebyId(id=id,data=newdata)
+                with open('users.json', 'w') as f:
+            
+                    json.dump(data, f)
+                
+            
+                return {'status':'success'}
+        return {'status':'failed'}
+   
+ 
+@blueprint.route('delete', methods=['POST'])
+def delete():
+    if request.method=='POST':
+
+        form = request.get_json()
+        
+        with open('users.json', 'r') as f:
     
+            data = json.load(f)
+        
+        logged = False
+        for i in data:
+            if i['secretKey']==form['secret'] and i['email']==form['email']:
+                logged = True
+                i['buckets']={
+                'name':form['bucket'],
+                'database':form['database'],
+                'project':form['project'],
+                               'modified':str(datetime.datetime.now())
+                }
+                project = Beardb(str(form['project'])+'_'+str(i['id']))
+                project.load_database(form['database'])
+                bucketdata = Bucket(project=project, bucket_name=form['bucket'])
+                
+                bucketdata.delete(query=ast.literal_eval(form['query']))
+                with open('users.json', 'w') as f:
+                    json.dump(data, f)
+                
+                return {'status':'success'}
+            return {'status':'failed'}
+
+@blueprint.route('/deletedatabyid', methods=['GET', 'POST'])
+def deletedatabyid():
+        if request.method=='POST':
+
+            form = request.get_json()
+        
+        
+            with open('users.json', 'r') as f:
+    
+                data = json.load(f)
+
+            logged = False
+            for i in data:
+                if i['secretKey']==form['secret'] and i['email']==form['email']:
+                    logged = True
+                    i['buckets']={
+                    'name':form['bucket'],
+                    'database':form['database'],
+                    'project':form['project'],
+                                       'modified':str(datetime.datetime.now())
+                    }
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
+                    project.load_database(form['database'])
+                    bucketdata = Bucket(project=project, bucket_name=form['bucket'])
+                    bucketdata.deletebyId(id=form['id'])
+                    with open('users.json', 'w') as f:
+
+                        json.dump(data, f)
+                        return {'status':'success'}
+                return {'status':'failed'}
+
 
 @blueprint.route('/getbucketslist', methods=['GET', 'POST'])
 def getbucketslist():
