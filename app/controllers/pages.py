@@ -429,7 +429,7 @@ def updatedatabyid():
         return {'status':'failed'}
    
  
-@blueprint.route('delete', methods=['POST'])
+@blueprint.route('/delete', methods=['POST'])
 def delete():
     if request.method=='POST':
 
