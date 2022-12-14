@@ -41,12 +41,22 @@ You can get you secret by creating a new user, steps to do so is listed in the A
 All of the endpoints require only a **POST** Method
 
 # API GUIDES
-[Create New User](#create-new-user)
-[Get User Data](#get-user-data)
-[Create Project](#create-project)
-[Create Database](#create-database)
-[Create Bucket](#create-bucket)
-[Insert Data](#insert-data)
+- [Create New User](#create-new-user)
+- [Get User Data](#get-user-data)
+- [Create Project](#create-project)
+- [Create Database](#create-database)
+- [Create Bucket](#create-bucket)
+- [Insert Data](#insert-data)
+- [Update Data With Query](#update-data-with-query)
+- [Update Data With ID](#update-data-with-id)
+- [Fetch Data With Query](#fetch-data-with-query)
+- [Fetch Data With ID](#fetch-data-with-query)
+- [Delete Data With Query](#delete-data-with-query)
+- [Delete Data With ID](#delete-data-with-id)
+- [Get Projects](#get-projects)
+- [Get Databases](#get-databases)
+- [Get Buckets](#get-buckets)
+
 
 ## Create New User
 ### Body
@@ -483,14 +493,7 @@ All of the endpoints require only a **POST** Method
 ```
 
 
-
-
-
-
-
-
-
-## Gettings Projects
+## Gettings Databases
 ### Body
 - email
 - secret
@@ -500,7 +503,7 @@ All of the endpoints require only a **POST** Method
 
 ### Endpoint 
 ```sh
-\getprojects
+\getdatabases
 ```
 
 ### Response
@@ -510,9 +513,12 @@ All of the endpoints require only a **POST** Method
 {
  "status": "success"
 	"data": {
-           "projects": [
-             "idea"
-           ],
+          "databases": [
+		{
+		"name": "appp",
+		"project": "idea"
+		}
+               ],
           },
 
 }
@@ -521,18 +527,7 @@ All of the endpoints require only a **POST** Method
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-## Get Projects
+## Get Buckets
 ### Body
 - email
 - secret
@@ -542,7 +537,7 @@ All of the endpoints require only a **POST** Method
 
 ### Endpoint 
 ```sh
-\getprojects
+\getbuckets
 ```
 
 ### Response
@@ -552,27 +547,15 @@ All of the endpoints require only a **POST** Method
 {
  "status": "success"
 	"data": {
-           "projects": [
-             "idea"
-           ],
+           "buckets": {
+			"database": "appp",
+			"modified": "2022-12-14 00:55:30.617538",
+			"name": "users",
+			"project": "idea"
+		},
           },
 
 }
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
