@@ -119,6 +119,15 @@ All of the endpoints require only a **POST** Method
 - [Get Databases](#get-databases)
 - [Get Buckets](#get-buckets)
 
+## Headers
+```sh
+Server: gunicorn
+Date: Wed, 14 Dec 2022 08:11:34 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 582
+Access-Control-Allow-Origin: *
+```
 
 ## Create New User
 ### Body
