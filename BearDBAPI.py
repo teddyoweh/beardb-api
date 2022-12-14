@@ -46,12 +46,13 @@ class BearDBAPI:
                 with open('users.json', 'w') as f:
                     json.dump([], f)
 
-                
+    def service(self):
+        return self.app                
     def host(self):
         return self.app
-    def run(self):
+    def run(self,host:str,port:int):
         
-        print('BearDB API started at http://{}:{}'.format(self.host, self.port))
+        # print('BearDB API started at http://{}:{}'.format(self.host, self.port))
 
         self.app.run(host=self.host, port=self.port, debug=True)
     def run_gunicorn(host, port):
