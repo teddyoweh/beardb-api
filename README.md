@@ -211,3 +211,34 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
 
 
+## Insert Data
+
+### Params
+- email
+- secret
+- project
+- database
+- bucket
+- data 
+```sh
+	("{'name':'teddy'}")
+```
+
+### Method
+	POST
+### Endpoint 
+```sh
+\newbucket
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+
+
+
