@@ -264,12 +264,12 @@ def insertdata():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets']={
+                i['buckets'].append({
                 'name':form['bucket'],
                 'database':form['database'],
                 'project':form['project'],
                 'modified':str(datetime.datetime.now())
-                }
+                })
                
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
@@ -298,12 +298,13 @@ def updatedata():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets']={
+
+                i['buckets'].append({
                 'name':form['bucket'],
                 'database':form['database'],
                 'project':form['project'],
                 'modified':str(datetime.datetime.now())
-                }
+                })
                
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
@@ -338,13 +339,8 @@ def fetchdata():
             for i in data:
                 if i['secretKey']==form['secret'] and i['email']==form['email']:
                     logged = True
-                    i['buckets']={
-                    'name':form['bucket'],
-                    'database':form['database'],
-                    'project':form['project'],
-                    'modified':str(datetime.datetime.now())
-                    }
-                   
+                     
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project.load_database(form['database']) 
                     bucketdata = Bucket(project=project, bucket_name=form['bucket'])
@@ -372,13 +368,10 @@ def fetchdatabyid():
             for i in data:
                 if i['secretKey']==form['secret'] and i['email']==form['email']:
                     logged = True
-                    i['buckets']={
-                    'name':form['bucket'],
-                    'database':form['database'],
-                    'project':form['project'],
-                    'modified':str(datetime.datetime.now())
-                    }
-                   
+                    for __ in i['buckets']:
+                        if __['name']==form['bucket']:
+                            __['modified']=str(datetime.datetime.now())
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project.load_database(form['database']) 
                     bucketdata = Bucket(project=project, bucket_name=form['bucket'])
@@ -407,12 +400,10 @@ def updatedatabyid():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets']={
-                'name':form['bucket'],
-                'database':form['database'],
-                'project':form['project'],
-                'modified':str(datetime.datetime.now())
-                }
+                
+                for __ in i['buckets']:
+                    if __['name']==form['bucket']:
+                        __['modified']=str(datetime.datetime.now())
                
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database']) 
@@ -443,12 +434,9 @@ def delete():
         for i in data:
             if i['secretKey']==form['secret'] and i['email']==form['email']:
                 logged = True
-                i['buckets']={
-                'name':form['bucket'],
-                'database':form['database'],
-                'project':form['project'],
-                               'modified':str(datetime.datetime.now())
-                }
+                for __ in i['buckets']:
+                    if __['name']==form['bucket']:
+                        __['modified']=str(datetime.datetime.now())
                 project = Beardb(str(form['project'])+'_'+str(i['id']))
                 project.load_database(form['database'])
                 bucketdata = Bucket(project=project, bucket_name=form['bucket'])
@@ -475,12 +463,10 @@ def deletedatabyid():
             for i in data:
                 if i['secretKey']==form['secret'] and i['email']==form['email']:
                     logged = True
-                    i['buckets']={
-                    'name':form['bucket'],
-                    'database':form['database'],
-                    'project':form['project'],
-                                       'modified':str(datetime.datetime.now())
-                    }
+                    for __ in i['buckets']:
+                        if __['name']==form['bucket']:
+                            __['modified']=str(datetime.datetime.now())
+                    project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project = Beardb(str(form['project'])+'_'+str(i['id']))
                     project.load_database(form['database'])
                     bucketdata = Bucket(project=project, bucket_name=form['bucket'])
@@ -492,7 +478,7 @@ def deletedatabyid():
                 return {'status':'failed'}
 
 
-@blueprint.route('/getbucketslist', methods=['GET', 'POST'])
+@blueprint.route('/getbuckets', methods=['GET', 'POST'])
 def getbucketslist():
 
     if request.method=='POST':
@@ -513,7 +499,7 @@ def getbucketslist():
           
         return {'status':'failed'}
          
-@blueprint.route('/getprojectslist', methods=['GET', 'POST'])
+@blueprint.route('/getprojects', methods=['GET', 'POST'])
 def getprojectslist():
 
     if request.method=='POST':
@@ -535,21 +521,27 @@ def getprojectslist():
         return {'status':'failed'}
          
   
-  
+@blueprint.route('/getdatabases', methods=['GET', 'POST'])
+def getdatabaselist():
+
+    if request.method=='POST':
+        
+        form = request.get_json()
+        
+        
+        with open('users.json', 'r') as f:
+
+            data = json.load(f)
+        
+        logged = False
+        for i in data:
+            if i['secretKey']==form['secret'] and i['email']==form['email']:
+                logged = True
+                return {'status':'success','buckets':i['databases']}
+               
+          
+        return {'status':'failed'}
   
   
 
-        #print(form)
-        # status, errors = validate_dict(form)
-        # if(status):
-        #     users = Bucket(project=project, bucket_name='users')
-           
-        #     if(len(users.fetchData(query={'username':form['username']}))>0):
-        #         errors['username'] = 'Username already exists.'
-        #         status = False
-        #     if(status):
-        #         users.insert(data=form)
-        #     return 'success'
-        # #print(validate_dict(form))
-        # return validate_dict(form)
-
+        
