@@ -7,7 +7,69 @@ BearDB is a database system that implements encrypted versions of JSON data, mak
 
 To deploy Beardb on a remote server, you will need to have access to a server that meets the system's requirements. These requirements include a Linux-based operating system, a minimum of 4GB of RAM, and at least 10GB of free storage space. Once you have a suitable server, you can download and install the Beardb software and follow the provided instructions to set up the database.
 
-Once Beardb is up and running on your remote server, you can easily manage your data using the system's intuitive interface. You can create, read, update, and delete records as needed, and access your data from any device with an internet connection. The system's encryption features ensure that your data remains secure, even when accessed remotely.
+Once Beardb is up and running on your remote server, you can easily manage your data using the microservice systems. You can create, read, update, and delete records as needed, and access your data from any device with an internet connection. The system's encryption features ensure that your data remains secure, even when accessed remotely.
+
+### Install Libaries
+```sh
+$ python3 -m pip install BeardbAPI 
+```
+```sh
+$ python3 -m pip install gunicorn
+```
+
+### Import Libraries
+```py
+from BeardbAPI.API import BeardbAPI
+```
+#### Running the Development MicroService
+run.py
+```py
+test = BeardbAPI()
+test.run(host='127.0.0.1',port=5555)
+```
+Terminal
+```sh
+$ python3 run.py
+```
+#### Running the Production MicroService
+run.py
+```py
+test = BeardbAPI()
+api = test.service()
+```
+Terminal
+```sh
+$ gunicorn run:api
+```
+The file system automatically starts the database environment in the current directory of the driver code.
+To avoid that pass in the directory you want to make the database enviroment.
+Run the following code
+```py
+test.storage(app_name='test_app',dir='')
+```
+#### Optimal Driver Code (Development)
+run.py
+```py
+test = BeardbAPI()
+test.storage(app_name='test_app',dir='')
+test.run(host='127.0.0.1',port=5555)
+```
+Terminal
+```sh
+$ python3 run.py
+```
+#### Optimal Driver Code (Production)
+run.py
+```py
+test = BeardbAPI()
+test.storage(app_name='test_app',dir='')
+api = test.service()
+```
+Terminal
+```sh
+$ gunicorn run:api
+```
+# API Documentation
 
 ## API Endpoints
 ```sh
@@ -57,6 +119,15 @@ All of the endpoints require only a **POST** Method
 - [Get Databases](#get-databases)
 - [Get Buckets](#get-buckets)
 
+## Headers
+```sh
+Server: gunicorn
+Date: Wed, 14 Dec 2022 08:11:34 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 582
+Access-Control-Allow-Origin: *
+```
 
 ## Create New User
 ### Body
@@ -463,7 +534,7 @@ All of the endpoints require only a **POST** Method
 
 
 
-## Gettings Projects
+## Get Projects
 ### Body
 - email
 - secret
@@ -493,7 +564,7 @@ All of the endpoints require only a **POST** Method
 ```
 
 
-## Gettings Databases
+## Get Databases
 ### Body
 - email
 - secret
