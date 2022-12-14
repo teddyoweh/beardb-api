@@ -23,18 +23,36 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 [POST] - \updatedata
 [POST] - \deletedata
 [POST] - \deletebyid
-[POST] - \bucketlist
-[POST] - \databaselist
-[POST] - \projectlist
+[POST] - \getbuckets
+[POST] - \getdatabases
+[POST] - \getprojects
 ```
-# API GUIDES
 
-## Creating New User
-### Params
+## API QuickStart
+To access any of the endpoint you have to include your email and secret in the body of the API Request.
+
+```json
+{
+"email":"teddyoweh@gmail.com"
+"secret":"a60e1bb1be7fc59ea08378f2840a8a4f44c07d19b315c3e78a279660a3f8a6f5"
+}
+```
+You can get you secret by creating a new user, steps to do so is listed in the API GUIDES Below
+All of the endpoints require only a **POST** Method
+
+# API GUIDES
+[Create New User](#create-new-user)
+[Get User Data](#get-user-data)
+[Create Project](#create-project)
+[Create Database](#create-database)
+[Create Bucket](#create-bucket)
+[Insert Data](#insert-data)
+
+## Create New User
+### Body
 - email
 - fullname
 - password
-- 
 ### Method 
 	POST
 
@@ -83,8 +101,8 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 ```
 
 
-## Getting User Data
-### Params
+## Get User Data
+### Body
 - email
 - secret
 ### Method
@@ -137,7 +155,7 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
 ## Create Project
 
-### Params
+### Body
 - email
 - secret
 - project
@@ -158,9 +176,9 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
 
 
-## Create Project
+## Create Database
 
-### Params
+### Body
 - email
 - secret
 - project
@@ -187,7 +205,7 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
 ## Create Bucket
 
-### Params
+### Body
 - email
 - secret
 - project
@@ -213,22 +231,24 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 
 ## Insert Data
 
-### Params
+### Body
 - email
 - secret
 - project
 - database
 - bucket
 - data 
-```sh
-	("{'name':'teddy'}")
+
+#### JSON FORMAT FOR Data
+```json
+"{'name':'teddy'}"
 ```
 
 ### Method
 	POST
 ### Endpoint 
 ```sh
-\newbucket
+\insertdata
 ```
 
 ### Response
@@ -238,6 +258,320 @@ Once Beardb is up and running on your remote server, you can easily manage your 
 }
 
 ```
+
+
+
+
+## Update Data With Query
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- data 
+- query
+
+#### JSON FORMAT FOR Data & Query
+```json
+"{'name':'teddy'}"
+```
+
+### Method
+	POST
+### Endpoint 
+```sh
+\updatedata
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+## Update Data With ID
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- data 
+- id
+
+#### JSON FORMAT FOR Data 
+```json
+"{'name':'teddy'}"
+```
+
+### Method
+	POST
+### Endpoint 
+```sh
+\updatedata
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+
+
+
+
+## Fetch Data With Query
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- query
+
+#### JSON FORMAT FOR  Query
+```json
+"{'name':'teddy'}"
+```
+
+### Method
+	POST
+### Endpoint 
+```sh
+\updatedata
+```
+
+### Response
+```json
+{
+"data": {
+	"id": "c0c5cc02-7ac8-11ed-a31f-324d38bf6d76",
+	"name": "teddy"
+},
+"status": "success"
+}
+
+```
+
+## Fetch Data With ID
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- id
+
+
+### Method
+	POST
+### Endpoint 
+```sh
+\fetchbyid
+```
+
+### Response
+```json
+{
+"data": {
+	"id": "c0c5cc02-7ac8-11ed-a31f-324d38bf6d76",
+	"name": "teddy"
+},
+"status": "success"
+}
+
+```
+
+
+
+
+## Delete Data With Query
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- query
+
+#### JSON FORMAT FOR Data & Query
+```json
+"{'name':'teddy'}"
+```
+
+### Method
+	POST
+### Endpoint 
+```sh
+\updatedata
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+## Delete Data With ID
+
+### Body
+- email
+- secret
+- project
+- database
+- bucket
+- id
+
+
+### Method
+	POST
+### Endpoint 
+```sh
+\updatedata
+```
+
+### Response
+```json
+{
+ "status": "success"	
+}
+
+```
+
+
+
+## Gettings Projects
+### Body
+- email
+- secret
+
+### Method 
+	POST
+
+### Endpoint 
+```sh
+\getprojects
+```
+
+### Response
+```json
+ 
+
+{
+ "status": "success"
+	"data": {
+           "projects": [
+             "idea"
+           ],
+          },
+
+}
+
+```
+
+
+
+
+
+
+
+
+
+## Gettings Projects
+### Body
+- email
+- secret
+
+### Method 
+	POST
+
+### Endpoint 
+```sh
+\getprojects
+```
+
+### Response
+```json
+ 
+
+{
+ "status": "success"
+	"data": {
+           "projects": [
+             "idea"
+           ],
+          },
+
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Get Projects
+### Body
+- email
+- secret
+
+### Method 
+	POST
+
+### Endpoint 
+```sh
+\getprojects
+```
+
+### Response
+```json
+ 
+
+{
+ "status": "success"
+	"data": {
+           "projects": [
+             "idea"
+           ],
+          },
+
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
