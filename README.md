@@ -1,13 +1,12 @@
 # BearDB MicroService
- Deploy JSON Databases Remotely 
+A microservice using the Beardb database system is a standalone service that is designed to deploy JSON databases remotely and provide API endpoints for accessing the data stored in these databases. This microservice utilizes the Beardb database system, which is a highly scalable and flexible database management system that is specifically designed to handle large amounts of data in the form of JSON documents.
+
+The microservice provides a set of API endpoints that allow users to retrieve data from the JSON databases that are deployed on the server. These API endpoints can be accessed using HTTP requests, and they return data in the form of JSON objects. This allows users to easily access and manipulate the data stored in the databases, and it also enables them to integrate the microservice with other systems and applications.
+
+
 
 ## Introduction
-
-BearDB is a database system that implements encrypted versions of JSON data, making it easy to access, manage, and deploy remotely. With Beardb, you can securely store and manage your data without worrying about unauthorized access. The system is designed to be user-friendly and easy to set up, even for users with limited technical experience.
-
-To deploy Beardb on a remote server, you will need to have access to a server that meets the system's requirements. These requirements include a Linux-based operating system, a minimum of 4GB of RAM, and at least 10GB of free storage space. Once you have a suitable server, you can download and install the Beardb software and follow the provided instructions to set up the database.
-
-Once Beardb is up and running on your remote server, you can easily manage your data using the microservice systems. You can create, read, update, and delete records as needed, and access your data from any device with an internet connection. The system's encryption features ensure that your data remains secure, even when accessed remotely.
+ 
 
 ### Install Libaries
 ```sh
