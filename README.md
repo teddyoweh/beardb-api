@@ -1,7 +1,7 @@
 # BearDB MicroService
 A microservice using the Beardb database system is a standalone service that is designed to deploy JSON databases remotely and provide API endpoints for accessing the data stored in these databases. This microservice utilizes the Beardb database system, which is a highly scalable and flexible database management system that is specifically designed to handle large amounts of data in the form of JSON documents.
 
-The microservice provides a set of API endpoints that allow users to retrieve data from the JSON databases that are deployed on the server. These API endpoints can be accessed using HTTP requests, and they return data in the form of JSON objects. This allows users to easily access and manipulate the data stored in the databases, and it also enables them to integrate the microservice with other systems and applications.
+The microservice provides a set of API endpoints that allow users to retrieve data from the JSON databases that are deployed on the server. These API endpoints can be accessed using HTTP POST requests, and they return data in the form of JSON objects. This allows users to easily access and manipulate the data stored in the databases, and it also enables them to integrate the microservice with other systems and applications.
 
 
 
