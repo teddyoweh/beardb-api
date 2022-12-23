@@ -1,1 +1,1 @@
-from BeardbAPI import BeardbAPI
+from . import BeardbAPI

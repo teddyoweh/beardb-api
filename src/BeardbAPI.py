@@ -1,4 +1,4 @@
-from app import create_app
+from .app import create_app
 import os
 import json
 from werkzeug.routing import BaseConverter

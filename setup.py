@@ -31,7 +31,7 @@ setup(
     ],
   
     include_package_data=True,
-    install_requires=['cryptography','dotenv','requests'],
+    install_requires=['cryptography','dotenv','requests','flask_cors','flask','werkzeug','gunicorn',''],
     entry_points={
         "console_scripts": [
             "Beardb=reader.__main__:main",
