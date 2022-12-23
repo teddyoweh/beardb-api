@@ -15,14 +15,14 @@ README = (HERE / "README.md").read_text()
 setup(
     name="BeardAPI",
     version="0.0.1",
-    description="https://github.com/teddyoweh/beardb-api",
+    description="Microservice to deploy JSON Databases Remotely.",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/teddyoweh/beardb-api",
     author="Teddy Oweh",
     author_email="teddy@teddyoweh.net",
-    packages=find_packages('src/Beardb'),
-    package_dir={'': 'src/Beardb'},
+    packages=find_packages('src/'),
+    package_dir={'': 'src/'},
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",

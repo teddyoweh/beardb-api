@@ -55,17 +55,17 @@ class BeardbAPI:
         # print('BearDB API started at http://{}:{}'.format(self.host, self.port))
 
         self.app.run(host=self.host, port=self.port, debug=True)
-    def run_gunicorn(host, port):
-        try:
+    # def run_gunicorn(host, port):
+    #     try:
     
-            subprocess.check_output(['gunicorn', '--version'])
-        except OSError:
+    #         subprocess.check_output(['gunicorn', '--version'])
+    #     except OSError:
     
-            print('Gunicorn is not installed. Please install Gunicorn to run the app.')
-            return
+    #         print('Gunicorn is not installed. Please install Gunicorn to run the app.')
+    #         return
 
     
-        subprocess.run(['gunicorn', '-b', f'{host}:{port}', 'run:api'])
+    #     subprocess.run(['gunicorn', '-b', f'{host}:{port}', 'run:api'])
         
      
 
