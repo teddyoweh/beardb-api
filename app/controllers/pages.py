@@ -89,7 +89,7 @@ def newuser():
         
             json.dump(data, f)
             
-        return {'status':'success'}
+        return {'status':'success','data':newdata}
   
 # make a login route
 

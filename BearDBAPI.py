@@ -11,7 +11,7 @@ class ListConverter(BaseConverter):
     def to_url(self, values):
         return ','.join(super(ListConverter, self).to_url(value)
                         for value in values)
-class BearDBAPI:
+class BeardbAPI:
     def __init__(self):
         self.app = create_app('config.development')
         self.cors = CORS(self.app, resources={r"/foo": {"origins": "*"}})

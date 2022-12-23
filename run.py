@@ -1,4 +1,4 @@
-from BearDBAPI import BearDBAPI
+from BeardbAPI import BeardbAPI
 service = BeardbAPI()
 service.storage('tddy','')
 api  =service.app
