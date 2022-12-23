@@ -1,0 +1,40 @@
+
+# -*- coding=utf-8 -*-
+# Name: teddy oweh
+# Email: teddy@teddyoweh.com
+# Message: Feel Free To Contact Me on Enquires or Question, il Reply :)mport pathlib
+
+from setuptools import setup, find_packages
+import pathlib
+ 
+HERE = pathlib.Path(__file__).parent
+
+ 
+README = (HERE / "README.md").read_text()
+ 
+setup(
+    name="BeardAPI",
+    version="0.0.1",
+    description="https://github.com/teddyoweh/beardb-api",
+    long_description=README,
+    long_description_content_type="text/markdown",
+    url="https://github.com/teddyoweh/beardb-api",
+    author="Teddy Oweh",
+    author_email="teddy@teddyoweh.net",
+    packages=find_packages('src/Beardb'),
+    package_dir={'': 'src/Beardb'},
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+    ],
+  
+    include_package_data=True,
+    install_requires=['cryptography','dotenv','requests'],
+    entry_points={
+        "console_scripts": [
+            "Beardb=reader.__main__:main",
+        ]
+    },
+)
