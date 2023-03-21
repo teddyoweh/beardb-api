@@ -13,28 +13,25 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
  
 setup(
-    name="BeardAPI",
-    version="0.0.1",
-    description="Microservice to deploy JSON Databases Remotely.",
+    name="BeardbAPI",
+    version="0.0.6",
+    description="Microservice to deploy Beardb Secured Databases Remotely.",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/teddyoweh/beardb-api",
     author="Teddy Oweh",
-    author_email="teddy@teddyoweh.net",
-    packages=find_packages('src/'),
-    package_dir={'': 'src/'},
+    author_email="teddyoweh@gmail.com",
+    packages=find_packages(),
+ 
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.11",
     ],
   
     include_package_data=True,
-    install_requires=['cryptography','dotenv','requests','flask_cors','flask','werkzeug','gunicorn',''],
-    entry_points={
-        "console_scripts": [
-            "Beardb=reader.__main__:main",
-        ]
-    },
+    install_requires=['cryptography','requests','flask_cors','flask','werkzeug','gunicorn'],
+  
 )

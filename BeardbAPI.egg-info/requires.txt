@@ -1,0 +1,6 @@
+cryptography
+requests
+flask_cors
+flask
+werkzeug
+gunicorn
