@@ -2,8 +2,8 @@ import ast
 from flask import render_template, Blueprint, request,jsonify
 import flask
 import uuid
-from Beardb.Beardb import Beardb
-from Beardb.Bucket import Bucket
+from beardb.Beardb import Beardb
+from beardb.Bucket import Bucket
 import base64
 import json
 import hashlib

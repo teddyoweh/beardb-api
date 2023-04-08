@@ -1,4 +1,4 @@
-from .app import create_app
+from app import create_app
 import os
 import json
 from werkzeug.routing import BaseConverter
@@ -11,7 +11,7 @@ class ListConverter(BaseConverter):
     def to_url(self, values):
         return ','.join(super(ListConverter, self).to_url(value)
                         for value in values)
-class BeardbAPI:
+class API:
     def __init__(self):
         self.app = create_app('config.development')
         self.cors = CORS(self.app, resources={r"/foo": {"origins": "*"}})
@@ -40,11 +40,13 @@ class BeardbAPI:
                 if not os.path.exists(os.path.join(app_dir, ".bdb")):
                     raise Exception(".bdb file does not exist in the directory")
             os.system(f"cd {app_dir}")
-            os.chdir(app_dir)
+            #os.chdir(app_dir)
+    
             print(os.getcwd())
             if not os.path.exists('users.json'):
                 with open('users.json', 'w') as f:
                     json.dump([], f)
+            os.system("cd ..")
 
     def service(self):
         return self.app                
@@ -70,3 +72,6 @@ class BeardbAPI:
      
 
 
+api = API()
+api.storage(app_name='test_app',dir='')
+api.run('localhost',9999)
